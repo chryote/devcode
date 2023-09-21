@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: todo # Specify the database name here
+      MYSQL_USER: carl
+      MYSQL_PASSWORD: 123
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  node_app:
+    build: .
+    container_name: node-app-container
+    ports:
+      - "3030:3030"
+    depends_on:
+      - mysql
